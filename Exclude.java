@@ -1,6 +1,5 @@
 package com.krisapps.biamine.biamine;
 
-import com.sun.istack.internal.NotNull;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -93,35 +92,74 @@ public class Exclude implements CommandExecutor {
         //ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".value"))
 
         if (sender instanceof Player) {
-            if (args.length == 3) {
-                //Case where /exclude <gameID> <player> [-r]
-                if (main.games.contains(args[0])) {
-                    if (Bukkit.getPlayer(args[1]) == null) {
-                        switch (args[1]) {
-                            case "clear":
+            if (args.length > 0) {
+                if (args.length == 3) {
+                    //Case where /exclude <gameID> <player> [-r]
+                    if (main.games.contains(args[0])) {
+                        if (Bukkit.getPlayer(args[1]) == null) {
+                            switch (args[1]) {
+                                case "clear":
+                                    try {
+                                        clearExclusionList(args[0], sender);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                case "view":
+                                    sender.sendMessage(ChatColor.YELLOW + "========================================");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-listexcl"))));
+                                    for (Object el : Objects.requireNonNull(main.games.getList(args[0] + ".exclude"))) {
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-excluding"))) + ChatColor.AQUA + el.toString());
+                                    }
+                                    sender.sendMessage(ChatColor.YELLOW + "========================================");
+                                    break;
+                                default:
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-invalidop"))));
+                            }
+                        } else {
+                            if (args[2] != null && args[2].equals("-r")) {
                                 try {
-                                    clearExclusionList(args[0], sender);
+                                    removeExclusion(args[1], args[0], sender);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                break;
-                            case "view":
-                                sender.sendMessage(ChatColor.YELLOW + "========================================");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-listexcl"))));
-                                for (Object el : Objects.requireNonNull(main.games.getList(args[0] + ".exclude"))) {
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-excluding"))) + ChatColor.AQUA + el.toString());
+                            } else {
+                                try {
+                                    addExclusion(args[1], args[0], sender);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                                sender.sendMessage(ChatColor.YELLOW + "========================================");
-                                break;
-                            default:
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-invalidop"))));
+                            }
                         }
                     } else {
-                        if (args[2] != null && args[2].equals("-r")) {
-                            try {
-                                removeExclusion(args[1], args[0], sender);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".start.err-notfound"))));
+                    }
+                } else if (args.length == 2) {
+                    //Case where either /exclude <gameID> list/view or /exclude <gameID> <player>
+                    if (main.games.contains(args[0])) {
+                        if (Bukkit.getPlayer(args[1]) == null) {
+                            switch (args[1]) {
+                                case "clear":
+                                    try {
+                                        clearExclusionList(args[0], sender);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                case "view":
+                                    sender.sendMessage(ChatColor.YELLOW + "========================================");
+                                    if (main.games.contains(args[0] + ".exclude")) {
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-listexcl"))));
+                                        for (Object el : Objects.requireNonNull(main.games.getList(args[0] + ".exclude"))) {
+                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-excluding"))) + ChatColor.AQUA + el.toString());
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-noexlist"))));
+                                    }
+                                    sender.sendMessage(ChatColor.YELLOW + "========================================");
+                                    break;
+                                default:
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-invalidop"))));
                             }
                         } else {
                             try {
@@ -132,49 +170,14 @@ public class Exclude implements CommandExecutor {
                         }
                     }
                 } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".start.err-notfound"))));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-syntaxerr"))));
+                    return false;
                 }
-            } else if (args.length == 2) {
-                //Case where either /exclude <gameID> list/view or /exclude <gameID> <player>
-                if (main.games.contains(args[0])) {
-                    if (Bukkit.getPlayer(args[1]) == null) {
-                        switch (args[1]) {
-                            case "clear":
-                                try {
-                                    clearExclusionList(args[0], sender);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            case "view":
-                                sender.sendMessage(ChatColor.YELLOW + "========================================");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-listexcl"))));
-                                if (main.games.contains(args[0] + ".exclude")) {
-                                    for (Object el : Objects.requireNonNull(main.games.getList(args[0] + ".exclude"))) {
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.phr-excluding"))) + ChatColor.AQUA + el.toString());
-                                    }
-                                } else {
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-noexlist"))));
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + "========================================");
-                                break;
-                            default:
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-invalidop"))));
-                        }
-                    } else {
-                        try {
-                            addExclusion(args[1], args[0], sender);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }else{
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-syntaxerr"))));
-                return false;
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-onlyplayer"))));
             }
-        } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-onlyplayer"))));
+        }else{
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;
     }

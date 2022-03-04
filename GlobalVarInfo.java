@@ -20,7 +20,11 @@ public class GlobalVarInfo implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         String inf = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".gvi.msg-info"))).replace("$act", main.games.getString("activeGame"));
-        inf = inf.replace("$inp", Objects.requireNonNull(main.games.getString("gameInProgress")));
+        if (main.games.getString("gameInProgress") != null){
+            inf = inf.replace("$inp", Objects.requireNonNull(main.games.getString("gameInProgress")));
+        }else{
+            inf = inf.replace("$inp", "N/A");
+        }
         inf = inf.replace("$frmt", Objects.requireNonNull(main.games.getString("formattedDuration")));
         inf = inf.replace("$dur", Objects.requireNonNull(main.games.getString("latestGameDuration")));
         try {

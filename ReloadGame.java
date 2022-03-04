@@ -1,5 +1,6 @@
 package com.krisapps.biamine.biamine;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,6 +44,8 @@ public class ReloadGame implements CommandExecutor {
                     e.printStackTrace();
                 }
             }
+        }else{
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;
     }
