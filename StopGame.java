@@ -34,7 +34,7 @@ public class StopGame implements CommandExecutor {
             } catch (NullPointerException | IOException e) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".stop.err-npe")));
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;

@@ -54,7 +54,7 @@ public class StartGame implements CommandExecutor {
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".start.err-nullval")));
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;

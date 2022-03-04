@@ -45,7 +45,7 @@ public class SelectGame implements CommandExecutor {
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".select.err-notfound").replace("$g", args[0])));
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;

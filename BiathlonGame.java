@@ -70,7 +70,7 @@ public class BiathlonGame {
         bar_countdown.setVisible(false);
     }
 
-    public void reset(){ //Reset all data to start a new game.
+    public void reset() { //Reset all data to start a new game.
         bar_countdown.setVisible(false);
         game_board.clearSlot(DisplaySlot.SIDEBAR);
         for (String entry : game_board.getEntries()) { //Reset scoreboard entries.
@@ -327,10 +327,6 @@ public class BiathlonGame {
         getMain().getLogger().info("Cancelled task: " + getTrainingTask() + " [Training Countdown]");
         main.log(String.format("Game %s: Training finished.", id));
     }
-
-
-
-
 
 
     //Setters and getters.

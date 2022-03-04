@@ -45,7 +45,7 @@ public class DeleteGame implements CommandExecutor {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".deletegame.err-insuff")));
                 return false;
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;

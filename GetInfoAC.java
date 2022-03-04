@@ -11,7 +11,8 @@ import java.util.List;
 public class GetInfoAC implements TabCompleter {
 
     BiaMine main;
-    public GetInfoAC(BiaMine main){
+
+    public GetInfoAC(BiaMine main) {
         this.main = main;
     }
 
@@ -19,13 +20,13 @@ public class GetInfoAC implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         //Syntax: /getinfo <list/find> <id>
         List<String> completions = new ArrayList<>();
-        if (args.length == 1){
+        if (args.length == 1) {
             completions.add("list");
             completions.add("find");
-        }else if (args.length == 2){
+        } else if (args.length == 2) {
             List<String> forbiddenKeys = Arrays.asList("activeGame", "latestGameDuration", "gameInProgress", "formattedDuration", "latestFinishTime");
             for (String game : main.games.getKeys(false)) {
-                if (!forbiddenKeys.contains(game)){
+                if (!forbiddenKeys.contains(game)) {
                     completions.add(game);
                 }
             }

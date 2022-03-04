@@ -39,7 +39,7 @@ public class SetStart implements CommandExecutor {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
 

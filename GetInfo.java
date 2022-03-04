@@ -81,7 +81,7 @@ public class GetInfo implements CommandExecutor {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".getinfo.err-insuff")));
                 return false;
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;

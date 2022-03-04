@@ -44,7 +44,7 @@ public class ReloadGame implements CommandExecutor {
                     e.printStackTrace();
                 }
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;

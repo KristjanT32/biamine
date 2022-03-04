@@ -34,13 +34,13 @@ public class Exclude implements CommandExecutor {
                 }
             } else {
                 List<String> exclude = new ArrayList<>();
-                    exclude.add(player);
-                    main.games.set(game + ".exclude", exclude);
-                    main.games.save(main.gameConfigfile);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.msg-excl_added").replace("$p", player))));
+                exclude.add(player);
+                main.games.set(game + ".exclude", exclude);
+                main.games.save(main.gameConfigfile);
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.msg-excl_added").replace("$p", player))));
 
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".start.err-notfound"))));
         }
     }
@@ -176,7 +176,7 @@ public class Exclude implements CommandExecutor {
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-onlyplayer"))));
             }
-        }else{
+        } else {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', main.localization.getString(main.config.getString("lang") + ".creategame.err-insuff")));
         }
         return true;
