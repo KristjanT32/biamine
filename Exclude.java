@@ -1,5 +1,6 @@
 package com.krisapps.biamine.biamine;
 
+import com.sun.istack.internal.NotNull;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,14 +35,11 @@ public class Exclude implements CommandExecutor {
                 }
             } else {
                 List<String> exclude = new ArrayList<>();
-                if (!exclude.contains(player)) {
                     exclude.add(player);
                     main.games.set(game + ".exclude", exclude);
                     main.games.save(main.gameConfigfile);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.msg-excl_added").replace("$p", player))));
-                } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".exclude.err-alreadyexcluded"))));
-                }
+
             }
         }else{
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(main.localization.getString(main.config.getString("lang") + ".start.err-notfound"))));
